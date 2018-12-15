@@ -33,7 +33,7 @@ function upload(response, request) {
     console.log("about to parse");
     form.parse(request, function (error, fields, files) {
         console.log("parsing done");
-        fs.renameSync(files.upload.path, "./tmp/test.pbrt");
+        fs.renameSync(files.upload.path, "./tmp/scene.pbrt");
 
         response.writeHead(200, { "Content-Type": "text/plain" });
         response.write("transfering pbrt file...\n");
@@ -52,33 +52,12 @@ function upload(response, request) {
         });
 
         console.log('rendering done');
-
-        fs.readFile("cornell-box.png", "binary", function (error, file) {
-            console.log("read file");
-            if (error) {
-                console.log("file read err");
-                response.writeHead(500, { "Content-Type": "text/plain" });
-                response.write(error + "\n");
-                response.end();
-            } else {
-                console.log("file read noErr");
-                response.writeHead(200, { "Content-Type": "image/png" });
-                response.write(file, "binary");
-                response.end();
-            }
-        });
-
-
-
     });
-
-    
-
 }
 
 function show(response) {
     console.log("Request handler 'show' was called.");
-    fs.readFile("cornell-box.png", "binary", function (error, file) {
+    fs.readFile("scene.png", "binary", function (error, file) {
         if (error) {
             response.writeHead(500, { "Content-Type": "text/plain" });
             response.write(error + " not completed yet\n");
